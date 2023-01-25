@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
+import { Box, Button } from '@mui/material';  
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,8 @@ import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { emptyCart } from '../redux/Action/action'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,6 +58,7 @@ export default function Navbar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const dispatch = useDispatch()
 
   const result = useSelector((state) => state.cartData);
   console.log(result , 'redux')
@@ -108,7 +111,7 @@ export default function Navbar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex', margin: 4} }}>
            
             <IconButton
               size="large"
@@ -120,6 +123,9 @@ export default function Navbar() {
               </Badge>
             </IconButton>
           </Box>
+            <Button size="small" color="primary " variant='string' onClick={() => dispatch(emptyCart())} >
+            Empty cart
+        </Button>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

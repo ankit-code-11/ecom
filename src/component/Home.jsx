@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Box, Button, CardActionArea, CardActions } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/Action/action';
+import { addToCart,removeToCart } from '../redux/Action/action';
 
 export default function MultiActionAreaCard() {
     const dispatch = useDispatch();
@@ -44,8 +44,9 @@ export default function MultiActionAreaCard() {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              
             >
-                <RemoveCircleOutlineIcon />
+                <RemoveCircleOutlineIcon onClick={() => dispatch(removeToCart(product))} />
             </IconButton>
           </Box>
       </CardActions>
