@@ -12,7 +12,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { emptyCart } from '../redux/Action/action'
+import { emptyCart } from '../redux/Action/action';
+import { NavLink, Outlet } from 'react-router-dom'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -89,6 +90,7 @@ export default function Navbar() {
   );
 
   return (
+    <>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={{bgcolor:"rgb(0,30,60)"}} position="static">
         <Toolbar>
@@ -119,7 +121,9 @@ export default function Navbar() {
               color="inherit"
             >
               <Badge badgeContent={result.length} color="error">
+                <NavLink to="cart" >
                 <ShoppingCartIcon />
+                </NavLink>
               </Badge>
             </IconButton>
           </Box>
@@ -130,5 +134,8 @@ export default function Navbar() {
       </AppBar>
       {renderMobileMenu}
     </Box>
+    <Outlet />
+    </>
+
   );
 }
