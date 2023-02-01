@@ -8,8 +8,8 @@ const Cart = () => {
     console.log(data, 'data')
   return (
     <>
-        {data.map((i) => {
-            return  <Product data={i} />
+        {data.map((value) => {
+            return  <Product data={value} />
         })}
     </>
   )

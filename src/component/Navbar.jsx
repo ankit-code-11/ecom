@@ -62,8 +62,6 @@ export default function Navbar() {
   const dispatch = useDispatch()
 
   const result = useSelector((state) => state.cartData);
-  console.log(result , 'redux')
-
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);

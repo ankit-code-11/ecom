@@ -1,64 +1,88 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import { CardActionArea } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { Box, Button, CardActionArea, CardActions } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { addToCart, removeToCart } from "../redux/Action/action";
-import { Outlet } from "react-router-dom";
+import { addToCart } from '../redux/Action/action'
+import { ToastContainer, toast } from 'react-toastify';
 
-export default function MultiActionAreaCard() {
-  const dispatch = useDispatch();
-  const product = {
-    name: "iphone",
-    price: "$100",
-    id: 1,
-    description: 'The iPhone is a smartphone made by Apple that combines a computer, iPod, digital camera and cellular phone into one device with a touchscreen interface. The iPhone runs the iOS operating system, and in 2021 when the iPhone 13 was introduced, it offered',
-    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvTcbCNcvmvvb1djt59-_YnKzbxpHN_CFSvzVlbT8ibPpeO_yq3I8FMD5TEa-j-x2ksOU&usqp=CAU'
-  };
+
+const Home = ({ data }) => {
+  const [res, setRes] = useState(data);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    setRes(data);
+  }, [data]);
+
+  const notify = () => toast("Wow so easy!");
+
+  const handleClick = (value) => {
+    dispatch(addToCart(value));
+    toast.success('Success Notification !', {
+      position: toast.POSITION.TOP_RIGHT
+  });
+  }
+
+  console.log(res, "red");
   return (
     <>
-      <Card sx={{ width: 300 }}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            width="140"
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvTcbCNcvmvvb1djt59-_YnKzbxpHN_CFSvzVlbT8ibPpeO_yq3I8FMD5TEa-j-x2ksOU&usqp=CAU"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Iphone
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button
-            size="small"
-            color="primary"
-            variant="contained"
-            onClick={() => dispatch(addToCart(product))}
-          >
-            Add to cart
-          </Button>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <RemoveCircleOutlineIcon
-                onClick={() => dispatch(removeToCart(product))}
-              />
-            </IconButton>
-          </Box>
-        </CardActions>
-      </Card>
-      <Outlet />
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+      >
+        {res.length === 0 ? (
+          <Typography sx={{m: '2rem'}} m={2} style={{margin: '5px'}} variant="h1" component="h2">
+          Loading....
+        </Typography>
+        ) : (
+          res?.map((value) => {
+            return (
+              <Grid item xs={5} sm={4} md={4} key={value.id}  style={{ display: "flex" }} >
+                <Card sx={{ maxWidth: 345 }} style={{ display: "grid" }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      alt="green iguana"
+                      width="140"
+                      image={value.image}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {value.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {value.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button size="small" onClick={() => notify()}>{value.price}</Button>
+                    <Button size="small" variant="contained" onClick={() => handleClick(value)} >Add to Cart</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            );
+          })
+        )}
+      </Grid>
+      <ToastContainer position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover theme="light" />
     </>
   );
-}
+};
+
+export default Home;

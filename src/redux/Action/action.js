@@ -1,4 +1,5 @@
 export const addToCart = (data) => {
+    console.log(data, 'from react')
     return {
         type: 'Add',
         data
