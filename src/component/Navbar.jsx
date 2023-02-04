@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { emptyCart } from '../redux/Action/action';
 import { NavLink, Outlet } from 'react-router-dom'
+import { productList } from '../redux/Action/productAction';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,6 +63,8 @@ export default function Navbar() {
   const dispatch = useDispatch()
 
   const result = useSelector((state) => state.cartData);
+  const data  = useSelector((state) => state);
+  console.log(data, 'jkhfkjkj')
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -112,6 +115,7 @@ export default function Navbar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex', margin: 4} }}>
+            <button onClick={() => dispatch(productList())}>Get list</button>
            
             <IconButton
               size="large"

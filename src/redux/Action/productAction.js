@@ -1,6 +1,7 @@
-export  const productList = (data) => {
+export  const productList = () => {
+
     return {
-        type: 'Product',
-        data
+        type: 'Product_List',
+        data: "apple"
     }
 }
